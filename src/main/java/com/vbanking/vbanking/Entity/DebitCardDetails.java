@@ -14,24 +14,35 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import java.util.*;
 
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "DebitCardDetails")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Customer {
+public class DebitCardDetails {
+
+   
+    @Column(name = "acno")
+    private long acno;
 
     @Id
-    @Column(name = "cifno")
-    private long cifno;
+    @Column(name = "cardnumber")
+	private long cardnumber;
 
-    @Column(name = "username")
-	private String username;
+	@Column(name = "cardholdername")
+	private String cardholdername;
 
-	@Column(name = "password")
-	private String password;
+    @Column(name = "validfrom")
+	private Date validfrom;
+
+    @Column(name = "validtill")
+	private Date validtill;
+
+    @Column(name = "cvv")
+	private int cvv;
 }

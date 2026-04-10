@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.vbanking.vbanking.Entity.Transactions;
+import com.vbanking.vbanking.Entity.NomineeDetails;
 
 @Repository
-public interface TransactionRepo extends JpaRepository<Transactions, Long> {
+public interface NomineeRepo extends JpaRepository<NomineeDetails, Long> {
 
-    @Query(value="SELECT * FROM transactions WHERE acno =:acno order by date limit 5 ",nativeQuery=true)
-	List<Transactions> getlastfivetransactions(Long acno);
+    @Query(value="SELECT * FROM nomineedetails WHERE acno =:acno ",nativeQuery=true)
+	List<NomineeDetails> getNomineeDetails(Long acno);
 
 } 

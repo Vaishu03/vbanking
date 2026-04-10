@@ -26,12 +26,30 @@ import lombok.NoArgsConstructor;
 public class AccDetails {
 
     @Id
-    @Column(name = "ACNO")
+    @Column(name = "acno")
     private Long acno;
 
-    @Column(name = "BALANCE")
+    @Column(name = "balance")
 	private Long balance;
 
-	@Column(name = "CIFNO")
+	@Column(name = "cifno")
 	private Long cifno;
+
+    @Column(name = "inb_facility")
+	private char inb_facility;
+
+    @Column(name = "debit_card")
+	private char debit_card;
+
+    @Column(name = "aadhar_linkage")
+	private char aadhar_linkage;
+
+    @Column(name = "kyc_enquiry")
+	private char kyc_enquiry;
+
+    @Column(name = "nominee_details")
+	private char nominee_details;
+
+    @Column(name = "mobilenumber")
+	private Long mobilenumber;
 }

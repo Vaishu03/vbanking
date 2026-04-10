@@ -18,4 +18,5 @@ public interface VoiceRepo extends JpaRepository<Customer, Long> {
 
     @Query(value="SELECT CIFNO FROM CUSTOMER WHERE USERNAME = :username",nativeQuery=true)
     Long getCifNo(String username);
+
 } 

@@ -4,13 +4,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import com.vbanking.vbanking.Entity.Customer;
 import com.vbanking.vbanking.Entity.AccDetails;
+import com.vbanking.vbanking.Entity.Transactions;
+import com.vbanking.vbanking.Entity.CreditCarddetails;
+import com.vbanking.vbanking.Entity.DebitCardDetails;
+import com.vbanking.vbanking.Entity.NomineeDetails;
 import com.vbanking.vbanking.Service.VoiceService;
 import com.vbanking.vbanking.Service.AccService;
 import com.vbanking.vbanking.Service.AuthService;
+import com.vbanking.vbanking.Service.TransactionService;
+import com.vbanking.vbanking.Service.CreditCardService;
+import com.vbanking.vbanking.Service.DebitCardService;
+import com.vbanking.vbanking.Service.NomineeService;
 import com.vbanking.vbanking.DTO.CustomerDTO;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import com.vbanking.vbanking.Repository.Projection.AccdetailsProjection;
+import com.vbanking.vbanking.Repository.Projection.InbFacility;
+import com.vbanking.vbanking.Repository.Projection.DebitCardFacility;
+import com.vbanking.vbanking.Repository.Projection.AadharLinkage;
+import com.vbanking.vbanking.Repository.Projection.KycEnquiry;
+import com.vbanking.vbanking.Repository.Projection.NomineeFacility;
+
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
@@ -20,12 +34,23 @@ public class VoiceController {
     private final VoiceService voiceService;
     private final AccService accService;
 	private final AuthService authService;
+    private final TransactionService transactionService;
+    private final CreditCardService creditCardService;
+    private final DebitCardService debitCardService;
+    private final NomineeService nomineeService;
 
-	public VoiceController(VoiceService voiceService,AccService accService,AuthService authService)
+
+	public VoiceController(VoiceService voiceService,AccService accService,AuthService authService,TransactionService transactionService,
+                            CreditCardService creditCardService,DebitCardService debitCardService,
+                            NomineeService nomineeService)
 	{
 		this.voiceService = voiceService;
         this.accService = accService;
         this.authService = authService;
+        this.transactionService = transactionService;
+        this.creditCardService = creditCardService;
+        this.debitCardService = debitCardService;
+        this.nomineeService = nomineeService;
 	}
 
     // ✅ Health check
@@ -44,17 +69,6 @@ public class VoiceController {
         return accService.getAccdetails();
     }
 
-    // ✅ Balance API
-    @GetMapping("/getbalance")
-    public Map<String, Object> getBalance() {
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("balance", 3800000);
-        response.put("currency", "INR");
-
-        return response;
-    }
-
     @GetMapping("/getbalance/{cifNo}")
     public List<AccdetailsProjection> getBalance(@PathVariable Long cifNo){
         // Map<Long,Object> response = new HashMap<>();
@@ -63,11 +77,17 @@ public class VoiceController {
         return accService.getBalance(cifNo);
     }
 
-    @GetMapping("/getlastfivetransactions")
-    public List<transaction> getTransactions (){
-        return
+    @GetMapping("/getlastfivetransactions/{cifNo}")
+    public List<Transactions> getTransactions (@PathVariable Long cifNo){
+        Long acno = accService.getAcno(cifNo);
+        return transactionService.getlastfivetransactions(acno);
     }
 
+    @GetMapping("/getCreditcarddetails/{cifNo}")
+    public List<CreditCarddetails> getCreditcarddetails (@PathVariable Long cifNo){
+        Long acno = accService.getAcno(cifNo);
+        return creditCardService.getCreditcarddetails(acno);
+    }
 
 
     @PostMapping("/login")
@@ -77,64 +97,53 @@ public class VoiceController {
 		return ResponseEntity.ok(response);
 	}
 
+    @GetMapping("/inb_facility/{cifNo}")
+    public List<InbFacility> getInbFacility(@PathVariable Long cifNo){
 
-
-
-
-    // ✅ Mini Statement API
-    @GetMapping("/statement")
-    public List<Map<String, Object>> getStatement() {
-
-        List<Map<String, Object>> transactions = new ArrayList<>();
-
-        transactions.add(createTxn("Amazon", -1500, "05-Apr-2026"));
-        transactions.add(createTxn("Salary Credit", +30000, "01-Apr-2026"));
-        transactions.add(createTxn("Swiggy", -450, "30-Mar-2026"));
-        transactions.add(createTxn("Electricity Bill", -1200, "28-Mar-2026"));
-
-        return transactions;
+        // Long acno = accService.getAcno(cifNo);
+        return accService.getInbFacility(cifNo);
     }
 
-    // ✅ Transfer Money API
-    @GetMapping("/creditcarddetails")
-    public Map<String, Object> loanOutstandingAmount() {
+    @GetMapping("/debit_card_facility/{cifNo}")
+    public List<DebitCardFacility> getDebitCardFacility(@PathVariable Long cifNo){
 
-
-          Map<String, Object> response = new HashMap<>();
-        response.put("curroutstandingamount", 57486);
-        response.put("totallimit", "75000");
-        response.put("Duedate", "3rd of Every month");
-
-        return response;
-
-
-    //     String toAccount = request.get("toAccount").toString();
-    //     int amount = Integer.parseInt(request.get("amount").toString());
-
-    //     Map<String, Object> response = new HashMap<>();
-
-    //     response.put("status", "SUCCESS");
-    //     response.put("message", "₹" + amount + " transferred successfully to account " + toAccount);
-    //     response.put("txnId", UUID.randomUUID().toString());
-
-    //     System.out.println("Transferred " + amount + " to " + toAccount);
-
-        // return response;
+        // Long acno = accService.getAcno(cifNo);
+        return accService.getDebitCardFacility(cifNo);
     }
 
-    
+     @GetMapping("/aadhar_linkage/{cifNo}")
+    public List<AadharLinkage> getAadharLinkage(@PathVariable Long cifNo){
+
+        // Long acno = accService.getAcno(cifNo);
+        return accService.getAadharLinkage(cifNo);
+    }
+
+     @GetMapping("/debitcarddetails/{cifNo}")
+    public List<DebitCardDetails> getDebitCardDetails(@PathVariable Long cifNo){
+
+         Long acno = accService.getAcno(cifNo);
+        return debitCardService.getDebitCardDetails(acno);
+    }
+
+     @GetMapping("/nomineedetails/{cifNo}")
+    public List<NomineeDetails> getNomineeDetails(@PathVariable Long cifNo){
+
+         Long acno = accService.getAcno(cifNo);
+        return nomineeService.getNomineeDetails(acno);
+    }
 
 
+    @GetMapping("/kycEnquiry/{cifNo}")
+    public List<KycEnquiry> getKycEnquiry(@PathVariable Long cifNo){
 
+        // Long acno = accService.getAcno(cifNo);
+        return accService.getKycEnquiry(cifNo);
+    }
 
+     @GetMapping("/nomineefacility/{cifNo}")
+    public List<NomineeFacility> getnomineeFacility(@PathVariable Long cifNo){
 
-
-    // 🔧 Helper method
-    private Map<String, Object> createTxn(String desc, int amount, String date) {
-        Map<String, Object> txn = new HashMap<>();
-        txn.put("description", desc);
-        txn.put("amount", amount);
-        txn.put("date", date);
-        return txn;
+        // Long acno = accService.getAcno(cifNo);
+        return accService.getnomineeFacility(cifNo);
     }
 }

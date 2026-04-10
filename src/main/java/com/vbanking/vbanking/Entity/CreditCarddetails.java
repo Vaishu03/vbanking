@@ -17,35 +17,29 @@ import lombok.NoArgsConstructor;
 import java.util.*;
 
 
-
 @Entity
-@Table(name = "Transaction")
+@Table(name = "CreditCarddetails")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Transaction {
+public class CreditCarddetails {
+
+   
+    @Column(name = "acno")
+    private long acno;
 
     @Id
-    @Column(name="id")
-    private Long id;
+    @Column(name = "cardnumber")
+	private long cardnumber;
 
-    @Column(name = "ACNO")
-    private Long acno;
+	@Column(name = "cardlimit")
+	private long card_limit;
 
-    @Column(name = "DATE")
-	private Date date;
+    @Column(name = "outstanding")
+	private long outstanding_limit;
 
-	@Column(name = "FROM")
-	private String from;
-
-    @Column(name = "TO")
-	private String to;
-
-    @Column(name = "AMOUNT")
-	private String amount;
-
-
-
+    @Column(name = "duedate")
+	private Date duedate;
 }

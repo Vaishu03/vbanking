@@ -14,24 +14,35 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import java.util.*;
+
 
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "Transactions")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Customer {
+public class Transactions {
 
     @Id
-    @Column(name = "cifno")
-    private long cifno;
+    @Column(name="id")
+    private Long id;
 
-    @Column(name = "username")
-	private String username;
+    @Column(name = "acno")
+    private Long acno;
 
-	@Column(name = "password")
-	private String password;
+    @Column(name = "date")
+	private Date date;
+
+	@Column(name = "from_acc")
+	private String from_acc;
+
+    @Column(name = "to_acc")
+	private String to_acc;
+
+    @Column(name = "amount")
+	private String amount;
 }
