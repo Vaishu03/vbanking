@@ -48,7 +48,7 @@ public class AccDetails {
 	private char kyc_enquiry;
 
     @Column(name = "nominee_details")
-	private char nominee_details;
+	private Character nominee_details;
 
     @Column(name = "mobilenumber")
 	private Long mobilenumber;

@@ -13,7 +13,7 @@ import com.vbanking.vbanking.Entity.CreditCarddetails;
 @Repository
 public interface CreditCardRepo extends JpaRepository<CreditCarddetails, Long> {
 
-    @Query(value="SELECT * FROM creditcarddetails WHERE acno =:acno ",nativeQuery=true)
+    @Query(value="SELECT * FROM credit_carddetails WHERE acno =:acno ",nativeQuery=true)
 	List<CreditCarddetails> getCreditcarddetails(Long acno);
 
 } 

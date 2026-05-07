@@ -13,7 +13,7 @@ import com.vbanking.vbanking.Entity.DebitCardDetails;
 @Repository
 public interface DebitCardRepo extends JpaRepository<DebitCardDetails, Long> {
 
-    @Query(value="SELECT * FROM debitcarddetails WHERE acno =:acno ",nativeQuery=true)
+    @Query(value="SELECT * FROM debit_card_details WHERE acno =:acno ",nativeQuery=true)
 	List<DebitCardDetails> getDebitCardDetails(Long acno);
 
 } 

@@ -20,28 +20,28 @@ import com.vbanking.vbanking.Repository.Projection.NomineeFacility;
 @Repository
 public interface AccRepo extends JpaRepository<AccDetails, Long> {
 
-    @Query(value="SELECT * FROM accdetails",nativeQuery=true)
+    @Query(value="SELECT * FROM acc_details",nativeQuery=true)
 	List<AccDetails> getAccdetails();
 
-     @Query(value="SELECT acno,balance FROM accdetails WHERE cifno = :cifNo",nativeQuery=true)
+     @Query(value="SELECT acno,balance FROM acc_details WHERE cifno = :cifNo",nativeQuery=true)
     List<AccdetailsProjection> getBalance(Long cifNo);
 
-    @Query(value="SELECT acno FROM accdetails where cifno = :cifNo  order by acno LIMIT 1",nativeQuery=true)
+    @Query(value="SELECT acno FROM acc_details where cifno = :cifNo  order by acno LIMIT 1",nativeQuery=true)
     Long getAcno(Long cifNo);
 
-    @Query(value="SELECT acno,inb_facility from accdetails where cifno =:cifNo",nativeQuery=true)
+    @Query(value="SELECT acno,inb_facility from acc_details where cifno =:cifNo",nativeQuery=true)
     List<InbFacility> getInbFacility(Long cifNo);
 
-     @Query(value="SELECT acno,debit_card from accdetails where cifno =:cifNo",nativeQuery=true)
+     @Query(value="SELECT acno,debit_card from acc_details where cifno =:cifNo",nativeQuery=true)
     List<DebitCardFacility> getDebitCardFacility(Long cifNo);
 
-     @Query(value="SELECT acno,aadhar_linkage from accdetails where cifno =:cifNo",nativeQuery=true)
+     @Query(value="SELECT acno,aadhar_linkage from acc_details where cifno =:cifNo",nativeQuery=true)
     List<AadharLinkage> getAadharLinkage(Long cifNo);
 
-    @Query(value="SELECT acno,kyc_enquiry from accdetails where cifno =:cifNo",nativeQuery=true)
+    @Query(value="SELECT acno,kyc_enquiry from acc_details where cifno =:cifNo",nativeQuery=true)
     List<KycEnquiry> getKycEnquiry(Long cifNo);
 
-     @Query(value="SELECT acno,nominee_facility from accdetails where cifno =:cifNo",nativeQuery=true)
+     @Query(value="SELECT acno,nominee_details from acc_details where cifno =:cifNo",nativeQuery=true)
     List<NomineeFacility> getnomineeFacility(Long cifNo);
 
 } 

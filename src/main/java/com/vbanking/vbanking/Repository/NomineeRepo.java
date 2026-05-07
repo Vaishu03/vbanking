@@ -13,7 +13,7 @@ import com.vbanking.vbanking.Entity.NomineeDetails;
 @Repository
 public interface NomineeRepo extends JpaRepository<NomineeDetails, Long> {
 
-    @Query(value="SELECT * FROM nomineedetails WHERE acno =:acno ",nativeQuery=true)
+    @Query(value="SELECT * FROM nominee_details WHERE acno =:acno ",nativeQuery=true)
 	List<NomineeDetails> getNomineeDetails(Long acno);
 
 } 
